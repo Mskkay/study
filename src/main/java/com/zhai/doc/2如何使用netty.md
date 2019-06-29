@@ -27,3 +27,15 @@
   
   - nioEventLoop的线程命名规则 nioEventLoop-1-xx
   - new Child() 中 创建了线程执行器，MpscQueue(事件队列)，selector
+  
+#####1.1.3nioEventLoop的启动
+
+#####1.1.4nioEventLoop的执行
+  nioEventLoop有一个无限循环的run方法，这个方法的执行内容是select() -> processSelectedKeys() -> runAllTasks()  
+  selector.select()也是一个阻塞的操作
+  
+###1.2 netty的服务端demo（参考com.zhai.netty 在spring+netty 的分支上）
+  首先要了解的是，其实netty和spring并没有什么鸟关系。netty并不依赖于MVC模式，也不需要像web项目那样用tomcat啥的支持。netty在启动的时候
+本身就会要求一个独立端口。    
+  之所以我们要整合spring+netty，只是作为一个在web项目中的脚手架。可以看到的是，唯一两个有交界的地方在于，serverHandler如何调用受spring管理的
+bean，spring的bean如何调用netty向客户端发送信息
