@@ -8,7 +8,11 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
+/**
+ * @author Administrator
+ */
 public class MessageRequestHandler extends SimpleChannelInboundHandler<MessageRequestPacket> {
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageRequestPacket messageRequestPacket) {
         // 1.拿到消息发送方的会话信息

@@ -95,6 +95,11 @@ public class NettyClient {
                 } else {
                     String toUserId = sc.next();
                     String message = sc.next();
+
+                    if ("exit".equals(toUserId)) {
+                        channel.close();
+                    }
+
                     channel.writeAndFlush(new MessageRequestPacket(toUserId, message));
                 }
             }

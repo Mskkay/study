@@ -32,8 +32,18 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
 
         // 登录响应
         ctx.channel().writeAndFlush(loginResponsePacket);
+
+        System.out.println("现有连接数为" + SessionUtil.currentUserSize());
     }
 
+
+    /**
+     * @param loginRequestPacket 登陆用的信息包
+     * @return boolean
+     * @date 2019/6/30 0030 10:11
+     * @author Administrator
+     * @description 这个是验证帐号的方法。当然demo里面来者不拒
+     */
     private boolean valid(LoginRequestPacket loginRequestPacket) {
         return true;
     }
@@ -44,6 +54,8 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
+        System.out.println(SessionUtil.getSession(ctx.channel()).getUserName() + "断开连接！");
         SessionUtil.unBindSession(ctx.channel());
+        System.out.println("现有连接数为" + SessionUtil.currentUserSize());
     }
 }

@@ -51,4 +51,16 @@
   而当我们试图获取这些事件的fd的时候，它会把这些fd放入一个set中。netty认为这里完全不需要一个set，于是netty使用反射的操作，将一个披着
   set皮的array替换了selector的fdSet。从而使向fdSet中addFd的时间复杂度减少到了O(n)，因为不需要
 
-###2.2 FastThreadLocalThread
+###2.2 FastThreadLocal
+  要理解这个神奇的东西，先要理解ThreadLocal。  
+  ThreadLocal是啥呢？它相当于是绑定于一个线程的map，为这个线程提供一个公共的变量的使用。shiro中有一个SecurityUtils.getSubject().getPrincipal()
+就是使用了这个思路。本身没有传入任何参数，却可以获取当前用户。因为这个本身就是从当前线程中去取到的  
+  ThreadLocal是jdk本身的东西，但是通过阅读源码可以发现，是有可能内存泄漏的（比如这个线程是来自于线程池，用完了就放了回去，但是ThreadLocalMap却没有清除掉）。
+并且ThreadLocal一直在不厌其烦地clear()，当get()的时候也在clear()，这降低了获取的速度。所以netty重写了FastThreadLocal，提供一个更加安全和快速的方案
+
+1. 首先，FastThreadLocal依赖于FastThreadLocalThread，这是netty继承Thread写的一个类，用于描述netty的线程
+2. InternalThreadLocalMap。registerCleaner(threadLocalMap)这个方法将threadLocalMap注册到一个清理线程中，
+当thread被gc掉的时候，这个线程负责清理FastThreadLocal  
+``` TODO 这个类需要更多关注 ```
+
+

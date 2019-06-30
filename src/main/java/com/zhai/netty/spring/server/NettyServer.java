@@ -12,14 +12,30 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+/**
+ * @author Administrator
+ */
+@Component
 public class NettyServer {
 
     private static final int PORT = 8000;
 
+
     public static void main(String[] args) {
+        new NettyServer().run();
+    }
+
+
+    /**
+     * @date 2019/6/30 0030 9:53
+     * @author Administrator
+     * @description 启动run
+     */
+    public void run() {
         NioEventLoopGroup boosGroup = new NioEventLoopGroup();
         NioEventLoopGroup workerGroup = new NioEventLoopGroup();
 
@@ -45,6 +61,14 @@ public class NettyServer {
         bind(serverBootstrap, PORT);
     }
 
+
+    /**
+     * @param serverBootstrap 服务端框架
+     * @param port            监听端口
+     * @date 2019/6/30 0030 9:53
+     * @author Administrator
+     * @description 绑定端口
+     */
     private static void bind(final ServerBootstrap serverBootstrap, final int port) {
         serverBootstrap.bind(port).addListener(future -> {
             if (future.isSuccess()) {

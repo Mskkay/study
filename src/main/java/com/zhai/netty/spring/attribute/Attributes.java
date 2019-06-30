@@ -8,5 +8,8 @@ import io.netty.util.AttributeKey;
  */
 public interface Attributes {
 
+    /**
+     * 这里AttributeKey.newInstance("session")，netty使用这个方法生成一个对象作为key
+     */
     AttributeKey<Session> SESSION = AttributeKey.newInstance("session");
 }
