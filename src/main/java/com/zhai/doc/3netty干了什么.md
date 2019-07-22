@@ -63,4 +63,13 @@
 当thread被gc掉的时候，这个线程负责清理FastThreadLocal  
 ``` TODO 这个类需要更多关注 ```
 
+###2.3 byteBuf
+#####2.3.1 基础api
+  跳过，反正read,write,get,capacity,index什么的很简单，这里就不写了╮(╯3╰)╭
+#####2.3.2 分类
+  byteBuf有相当多的子类对其进行了实现
+1. 按pooled分，分为pooled（预先划分好了内存区）和unpooled
+2. 按safe分，unsafe和safe指是否可以拿到byteBuf的内存地址的指针
+
+
 
